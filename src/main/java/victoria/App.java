@@ -2,16 +2,20 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int findPoisonedDuration(int[] timeSeries, int duration) {
-        int total = 0;
-        for(int i = 0; i < timeSeries.length; i++){
-            if(i == timeSeries.length-1){
-                total += duration;
-            }else{
-                total += Math.min(timeSeries[i+1] - timeSeries[i], duration);
+    public int[] findErrorNums(int[] nums) {
+        int[] result = new int[2];
+        int[] count = new int[nums.length+1];
+        for(int i = 0; i < nums.length; i++){
+            count[nums[i]]++;
+        }
+        for(int i = 1; i < count.length; i++){
+            if(count[i] == 2){
+                result[0] = i;
+            }else if(count[i] == 0){
+                result[1] = i;
             }
         }
-        return total;
+        return result;
 
     }
 }
