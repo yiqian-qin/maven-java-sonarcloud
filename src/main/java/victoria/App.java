@@ -2,14 +2,15 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int minStartValue(int[] nums) {
-        int min = 0;
-        int sum = 0;
-        for(int i = 0; i < nums.length; i++){
-            sum += nums[i];
-            min = Math.min(min, sum);
+    public int minOperations(int[] nums) {
+        int count = 0;
+        for(int i = 1; i < nums.length; i++){
+            if(nums[i] <= nums[i-1]){
+                count += nums[i-1] - nums[i] + 1;
+                nums[i] = nums[i-1] + 1;
+            }
         }
-        return 1 - min;
+        return count;
 
     }
 }
