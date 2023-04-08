@@ -2,14 +2,37 @@ import java.util.*;
 import java.util.Arrays;
 
 class Solution {
-    public int countDigitOne(int n) {
-        int count = 0;
-        long i = 1;
-        while (i <= n) {
-            long divider = i * 10;
-            count += (n / divider) * i + Math.min(Math.max(n % divider - i + 1, 0L), i);
-            i *= 10;
+    public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int num = 0;
+        int sign = 1;
+        int res = 0;
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            } else if (c == '+') {
+                res += sign * num;
+                num = 0;
+                sign = 1;
+            } else if (c == '-') {
+                res += sign * num;
+                num = 0;
+                sign = -1;
+            } else if (c == '(') {
+                stack.push(res);
+                stack.push(sign);
+                sign = 1;
+                res = 0;
+            } else if (c == ')') {
+                res += sign * num;
+                num = 0;
+                res *= stack.pop();
+                res += stack.pop();
+            }
         }
-        return count;
+        if (num != 0) {
+            res += sign * num;
+        }
+        return res;
     }
 }
