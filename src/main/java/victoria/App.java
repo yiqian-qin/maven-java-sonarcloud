@@ -2,37 +2,33 @@ import java.util.*;
 import java.util.Arrays;
 
 class Solution {
-    public int calculate(String s) {
-        Stack<Integer> stack = new Stack<>();
-        int num = 0;
-        int sign = 1;
-        int res = 0;
-        for (char c : s.toCharArray()) {
-            if (Character.isDigit(c)) {
-                num = num * 10 + (c - '0');
-            } else if (c == '+') {
-                res += sign * num;
-                num = 0;
-                sign = 1;
-            } else if (c == '-') {
-                res += sign * num;
-                num = 0;
-                sign = -1;
-            } else if (c == '(') {
-                stack.push(res);
-                stack.push(sign);
-                sign = 1;
-                res = 0;
-            } else if (c == ')') {
-                res += sign * num;
-                num = 0;
-                res *= stack.pop();
-                res += stack.pop();
+    public int maxDistance(int[] position, int m) {
+        Arrays.sort(position);
+        int n = position.length;
+        int left = 1;
+        int right = position[n-1] - position[0];
+        int ans = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (check(mid, position, m)) {
+                ans = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
-        if (num != 0) {
-            res += sign * num;
+        return ans;
+    }
+    
+    private boolean check(int minDistance, int[] position, int m) {
+        int count = 1;
+        int lastPos = position[0];
+        for (int i = 1; i < position.length; i++) {
+            if (position[i] - lastPos >= minDistance) {
+                count++;
+                lastPos = position[i];
+            }
         }
-        return res;
+        return count >= m;
     }
 }
