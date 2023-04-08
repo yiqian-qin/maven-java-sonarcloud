@@ -2,22 +2,20 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int countCornerRectangles(int[][] grid) {
-        int res = 0;
-        int m = grid.length;
-        int n = grid[0].length;
-        for (int i = 0; i < m; i++) {
-            for (int j = i + 1; j < m; j++) {
-                int count = 0;
-                for (int k = 0; k < n; k++) {
-                    if (grid[i][k] == 1 && grid[j][k] == 1) {
-                        count++;
-                    }
-                }
-                res += count * (count - 1) / 2;
-            }
+    public int maxSubarraySumCircular(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        int sum = 0;
+        int curMax = 0;
+        int curMin = 0;
+        for (int num : nums) {
+            curMax = Math.max(curMax + num, num);
+            max = Math.max(max, curMax);
+            curMin = Math.min(curMin + num, num);
+            min = Math.min(min, curMin);
+            sum += num;
         }
-        return res;
+        return max > 0 ? Math.max(max, sum - min) : max;
         
     }
 }
