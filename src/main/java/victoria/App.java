@@ -2,17 +2,16 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public boolean isAnagram(String s, String t) {
-        if(s.length() != t.length()) return false;
-        int[] count = new int[26];
-        for(int i = 0; i < s.length(); i++){
-            count[s.charAt(i) - 'a']++;
-            count[t.charAt(i) - 'a']--;
+    public List<String> readBinaryWatch(int turnedOn) {
+        List<String> times = new ArrayList<>();
+        for(int h = 0; h < 12; h++){
+            for(int m = 0; m < 60; m++){
+                if(Integer.bitCount(h) + Integer.bitCount(m) == turnedOn){
+                    times.add(String.format("%d:%02d", h, m));
+                }
+            }
         }
-        for(int i = 0; i < 26; i++){
-            if(count[i] != 0) return false;
-        }
-        return true;
+        return times;
 
     }
 }
