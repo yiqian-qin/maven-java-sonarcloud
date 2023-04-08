@@ -2,24 +2,28 @@ import java.util.*;
 import java.util.Arrays;
 
 class Solution {
-    public int scheduleCourse(int[][] courses) {
-        Arrays.sort(courses, (a,b) -> a[1] - b[1]); // sort courses by last day
-
-        PriorityQueue<Integer> takenCourses = new PriorityQueue<>((a, b) -> b - a); // max heap to keep track of taken courses
-        int currentDay = 0; // current day we start a course
-
-        for (int[] course : courses) {
-            int duration = course[0], lastDay = course[1];
-            if (currentDay + duration <= lastDay) {
-                takenCourses.offer(duration);
-                currentDay += duration;
-            } else if (!takenCourses.isEmpty() && takenCourses.peek() > duration) {
-                // replace a longer course with this one to reduce total days taken
-                currentDay += duration - takenCourses.poll();
-                takenCourses.offer(duration);
+    public int minDeletionSize(String[] strs) {
+        int n = strs.length;
+        int m = strs[0].length();
+        int[] dp = new int[m]; // to store longest common subsequence
+        Arrays.fill(dp, 1); // intialize the array with 1s
+        
+        for(int j=1; j<m; j++) {
+            // compare each column with previous column
+            for(int i=0; i<j; i++) {
+                boolean isSorted = true;
+                // compare each row
+                for(int k=0; k<n; k++) {
+                    if(strs[k].charAt(i) > strs[k].charAt(j)) {
+                        isSorted = false;
+                        break;
+                    }
+                }
+                if(isSorted) {
+                    dp[j] = Math.max(dp[j], dp[i]+1);
+                }
             }
         }
-
-        return takenCourses.size();
+        return m - Arrays.stream(dp).max().getAsInt(); // return the columns that are not part of longest common subsequence
     }
 }
