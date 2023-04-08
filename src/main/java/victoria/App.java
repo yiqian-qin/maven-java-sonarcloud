@@ -2,15 +2,16 @@ import java.util.*;
 import java.util.Arrays;
 
 class Solution {
-    int minDiff = Integer.MAX_VALUE; // initialize the minimum difference as maximum integer value
-    Integer prev = null; // initialize previous node value as null
-    
-    public int getMinimumDifference(TreeNode root) {
-        if (root == null) return minDiff; // if the BST is null, return the current minimum difference
-        getMinimumDifference(root.left); // traverse left subtree
-        if (prev != null) minDiff = Math.min(minDiff, root.val - prev); // check and update the minimum difference
-        prev = root.val; // set previous node value as current node value
-        getMinimumDifference(root.right); // traverse right subtree
-        return minDiff; // return the final minimum difference
+    public boolean validWordSquare(List<String> words) {
+        int n = words.size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < words.get(i).length(); j++) {
+                // check if corresponding cell is out of bounds or does not match
+                if (j >= n || i >= words.get(j).length() || words.get(i).charAt(j) != words.get(j).charAt(i)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
