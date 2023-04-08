@@ -1,14 +1,19 @@
 import java.util.*;
 import java.util.Arrays;
 
-class Solution {
-    public int twoCitySchedCost(int[][] costs) {
-        Arrays.sort(costs, (a,b) -> (a[0]-a[1]) - (b[0]-b[1]));
-        int n = costs.length / 2;
-        int totalCost = 0;
-        for (int i = 0; i < n; i++) {
-            totalCost += costs[i][0] + costs[i+n][1];
+public int countCornerRectangles(int[][] grid) {
+    int count = 0;
+    int m = grid.length, n = grid[0].length;
+    for (int i = 0; i < m - 1; i++) {
+        for (int j = i + 1; j < m; j++) {
+            int currCount = 0;
+            for (int k = 0; k < n; k++) {
+                if (grid[i][k] == 1 && grid[j][k] == 1) {
+                    currCount++;
+                }
+            }
+            count += currCount * (currCount - 1) / 2;
         }
-        return totalCost;
     }
+    return count;
 }
