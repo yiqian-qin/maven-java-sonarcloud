@@ -2,20 +2,18 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int[] findErrorNums(int[] nums) {
-        int[] result = new int[2];
-        int[] count = new int[nums.length+1];
-        for(int i = 0; i < nums.length; i++){
-            count[nums[i]]++;
-        }
-        for(int i = 1; i < count.length; i++){
-            if(count[i] == 2){
-                result[0] = i;
-            }else if(count[i] == 0){
-                result[1] = i;
+    public int findLengthOfLCIS(int[] nums) {
+        if(nums.length == 0) return 0;
+        int max = 1;
+        int count = 1;
+        for(int i = 1; i < nums.length; i++){
+            if(nums[i] > nums[i-1]){
+                count++;
+            }else{
+                count = 1;
             }
+            max = Math.max(max, count);
         }
-        return result;
-
+        return max;
     }
 }
