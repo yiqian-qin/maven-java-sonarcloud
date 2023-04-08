@@ -2,20 +2,20 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int left = 0;
-        int right = arr.length - k;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (x - arr[mid] > arr[mid + k] - x) {
-                left = mid + 1;
-            } else {
-                right = mid;
+    public int countCornerRectangles(int[][] grid) {
+        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = i + 1; j < m; j++) {
+                int count = 0;
+                for (int k = 0; k < n; k++) {
+                    if (grid[i][k] == 1 && grid[j][k] == 1) {
+                        count++;
+                    }
+                }
+                res += count * (count - 1) / 2;
             }
-        }
-        List<Integer> res = new ArrayList<>();
-        for (int i = left; i < left + k; i++) {
-            res.add(arr[i]);
         }
         return res;
         
