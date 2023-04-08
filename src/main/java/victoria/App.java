@@ -1,19 +1,36 @@
 import java.util.*;
 import java.util.Arrays;
 
-public int countCornerRectangles(int[][] grid) {
-    int count = 0;
-    int m = grid.length, n = grid[0].length;
-    for (int i = 0; i < m - 1; i++) {
-        for (int j = i + 1; j < m; j++) {
-            int currCount = 0;
-            for (int k = 0; k < n; k++) {
-                if (grid[i][k] == 1 && grid[j][k] == 1) {
-                    currCount++;
-                }
+class Solution {
+    public List<List<String>> printTree(TreeNode root) {
+        int height = getHeight(root);
+        int width = (1 << height) - 1;
+        List<List<String>> res = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < width; j++) {
+                row.add("");
             }
-            count += currCount * (currCount - 1) / 2;
+            res.add(row);
         }
+        fill(root, res, 0, 0, width - 1);
+        return res;
     }
-    return count;
+    
+    private void fill(TreeNode root, List<List<String>> res, int level, int left, int right) {
+        if (root == null) {
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        res.get(level).set(mid, Integer.toString(root.val));
+        fill(root.left, res, level + 1, left, mid - 1);
+        fill(root.right, res, level + 1, mid + 1, right);
+    }
+    
+    private int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(getHeight(root.left), getHeight(root.right));
+    }
 }
