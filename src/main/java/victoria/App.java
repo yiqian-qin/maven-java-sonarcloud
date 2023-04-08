@@ -2,35 +2,22 @@ import java.util.*;
 import java.util.Arrays;
 
 class Solution {
-    public List<List<String>> printTree(TreeNode root) {
-        int height = getHeight(root);
-        int width = (1 << height) - 1;
-        List<List<String>> res = new ArrayList<>();
-        for (int i = 0; i < height; i++) {
-            List<String> row = new ArrayList<>();
-            for (int j = 0; j < width; j++) {
-                row.add("");
+    public int singleNonDuplicate(int[] nums) {
+        int low = 0;
+        int high = nums.length-1;
+        while(low<high){
+            int mid = low + (high-low)/2;
+            boolean checkEven = (high - mid) % 2 == 0;
+            if(nums[mid] == nums[mid-1]){
+                if(checkEven) high = mid-2;
+                else low = mid+1;
+            } else if(nums[mid] == nums[mid+1]){
+                if(checkEven) low = mid+2;
+                else high = mid-1;
+            } else {
+                return nums[mid];
             }
-            res.add(row);
         }
-        fill(root, res, 0, 0, width - 1);
-        return res;
-    }
-    
-    private void fill(TreeNode root, List<List<String>> res, int level, int left, int right) {
-        if (root == null) {
-            return;
-        }
-        int mid = left + (right - left) / 2;
-        res.get(level).set(mid, Integer.toString(root.val));
-        fill(root.left, res, level + 1, left, mid - 1);
-        fill(root.right, res, level + 1, mid + 1, right);
-    }
-    
-    private int getHeight(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        return 1 + Math.max(getHeight(root.left), getHeight(root.right));
+        return nums[low];
     }
 }
