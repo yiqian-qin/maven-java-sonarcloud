@@ -1,34 +1,14 @@
 import java.util.*;
 import java.util.Arrays;
 
-class FileSystem {
-    
-    // map to store the path and value pair
-    Map<String, Integer> map;
-    
-    public FileSystem() {
-        map = new HashMap<>();
-        // add root directory
-        map.put("", -1);
-    }
-    
-    public boolean createPath(String path, int value) {
-        // check if the parent directory exists
-        int idx = path.lastIndexOf("/");
-        String parent = path.substring(0, idx);
-        if (!map.containsKey(parent)) {
-            return false;
+class Solution {
+    public int twoCitySchedCost(int[][] costs) {
+        Arrays.sort(costs, (a,b) -> (a[0]-a[1]) - (b[0]-b[1]));
+        int n = costs.length / 2;
+        int totalCost = 0;
+        for (int i = 0; i < n; i++) {
+            totalCost += costs[i][0] + costs[i+n][1];
         }
-        // check if the path already exists
-        if (map.containsKey(path)) {
-            return false;
-        }
-        // create the path and assign the value
-        map.put(path, value);
-        return true;
-    }
-    
-    public int get(String path) {
-        return map.getOrDefault(path, -1);
+        return totalCost;
     }
 }
