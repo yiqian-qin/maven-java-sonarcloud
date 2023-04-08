@@ -1,34 +1,34 @@
 import java.util.*;
 import java.util.Arrays;
 
-class Solution {
-    public int maxDistance(int[] position, int m) {
-        Arrays.sort(position);
-        int n = position.length;
-        int left = 1;
-        int right = position[n-1] - position[0];
-        int ans = -1;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (check(mid, position, m)) {
-                ans = mid;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-        return ans;
+class FileSystem {
+    
+    // map to store the path and value pair
+    Map<String, Integer> map;
+    
+    public FileSystem() {
+        map = new HashMap<>();
+        // add root directory
+        map.put("", -1);
     }
     
-    private boolean check(int minDistance, int[] position, int m) {
-        int count = 1;
-        int lastPos = position[0];
-        for (int i = 1; i < position.length; i++) {
-            if (position[i] - lastPos >= minDistance) {
-                count++;
-                lastPos = position[i];
-            }
+    public boolean createPath(String path, int value) {
+        // check if the parent directory exists
+        int idx = path.lastIndexOf("/");
+        String parent = path.substring(0, idx);
+        if (!map.containsKey(parent)) {
+            return false;
         }
-        return count >= m;
+        // check if the path already exists
+        if (map.containsKey(path)) {
+            return false;
+        }
+        // create the path and assign the value
+        map.put(path, value);
+        return true;
+    }
+    
+    public int get(String path) {
+        return map.getOrDefault(path, -1);
     }
 }
