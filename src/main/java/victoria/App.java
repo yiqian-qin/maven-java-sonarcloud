@@ -2,16 +2,17 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int averageValue(int[] nums) {
-        int sum = 0;
+    public int countDigits(int num) {
         int count = 0;
-        for(int i = 0; i < nums.length; i++){
-            if(nums[i] % 2 == 0 && nums[i] % 3 == 0){
-                sum += nums[i];
+        int temp = num;
+        while(temp > 0){
+            int digit = temp % 10;
+            if(digit != 0 && num % digit == 0){
                 count++;
             }
+            temp /= 10;
         }
-        return count == 0 ? 0 : sum / count;
+        return count;
 
     }
 }
