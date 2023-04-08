@@ -2,18 +2,16 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int findClosestNumber(int[] nums) {
-        int result = 0;
-        int min = Integer.MAX_VALUE;
+    public int averageValue(int[] nums) {
+        int sum = 0;
+        int count = 0;
         for(int i = 0; i < nums.length; i++){
-            if(Math.abs(nums[i]) < min){
-                min = Math.abs(nums[i]);
-                result = nums[i];
-            }else if(Math.abs(nums[i]) == min){
-                result = Math.max(result, nums[i]);
+            if(nums[i] % 2 == 0 && nums[i] % 3 == 0){
+                sum += nums[i];
+                count++;
             }
         }
-        return result;
+        return count == 0 ? 0 : sum / count;
 
     }
 }
