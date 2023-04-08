@@ -2,24 +2,29 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public boolean isLongPressedName(String name, String typed) {
-        int i = 0, j = 0;
-        while(i < name.length() && j < typed.length()){
-            if(name.charAt(i) == typed.charAt(j)){
-                i++;
-                j++;
-            }else if(j > 0 && typed.charAt(j) == typed.charAt(j - 1)){
-                j++;
-            }else{
-                return false;
+    public boolean isCousins(TreeNode root, int x, int y) {
+        if(root == null) return false;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            boolean xFound = false;
+            boolean yFound = false;
+            for(int i = 0; i < size; i++){
+                TreeNode node = queue.poll();
+                if(node.val == x) xFound = true;
+                if(node.val == y) yFound = true;
+                if(node.left != null && node.right != null){
+                    if(node.left.val == x && node.right.val == y) return false;
+                    if(node.left.val == y && node.right.val == x) return false;
+                }
+                if(node.left != null) queue.add(node.left);
+                if(node.right != null) queue.add(node.right);
             }
+            if(xFound && yFound) return true;
+            if(xFound || yFound) return false;
         }
-        if(i < name.length()) return false;
-        while(j < typed.length()){
-            if(typed.charAt(j) != typed.charAt(j - 1)) return false;
-            j++;
-        }
-        return true;
+        return false;
 
     }
 }
