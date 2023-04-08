@@ -2,14 +2,20 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public boolean validWordSquare(List<String> words) {
-        int n = words.size();
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < words.get(i).length(); j++){
-                if(j >= n || i >= words.get(j).length() || words.get(i).charAt(j) != words.get(j).charAt(i)) return false;
+    public boolean repeatedSubstringPattern(String s) {
+        int n = s.length();
+        for(int i = n / 2; i >= 1; i--){
+            if(n % i == 0){
+                int m = n / i;
+                String sub = s.substring(0, i);
+                StringBuilder sb = new StringBuilder();
+                for(int j = 0; j < m; j++){
+                    sb.append(sub);
+                }
+                if(sb.toString().equals(s)) return true;
             }
         }
-        return true;
+        return false;
         
     }
 }
