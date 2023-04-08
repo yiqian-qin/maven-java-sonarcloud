@@ -2,17 +2,22 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int countDigits(int num) {
-        int count = 0;
-        int temp = num;
-        while(temp > 0){
-            int digit = temp % 10;
-            if(digit != 0 && num % digit == 0){
-                count++;
-            }
-            temp /= 10;
+    public double myPow(double x, int n) {
+        if(n == 0){
+            return 1;
         }
-        return count;
+        if(n == 1){
+            return x;
+        }
+        if(n == -1){
+            return 1 / x;
+        }
+        double half = myPow(x, n / 2);
+        if(n % 2 == 0){
+            return half * half;
+        }else{
+            return half * half * myPow(x, n % 2);
+        }
 
     }
 }
