@@ -2,51 +2,28 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int minSwaps(String s) {
-        int n = s.length();
-        int count0 = 0;
-        int count1 = 0;
+    public int[] missingRolls(int[] rolls, int mean, int n) {
+        int m = rolls.length;
+        int sum = 0;
+        for (int i = 0; i < m; i++) {
+            sum += rolls[i];
+        }
+        int total = (m + n) * mean;
+        int missing = total - sum;
+        if (missing < n || missing > 6 * n) {
+            return new int[0];
+        }
+        int[] res = new int[n];
         for (int i = 0; i < n; i++) {
-            if (s.charAt(i) == '0') {
-                count0++;
-            } else {
-                count1++;
-            }
+            res[i] = 1;
         }
-        if (Math.abs(count0 - count1) > 1) {
-            return -1;
+        missing -= n;
+        for (int i = n - 1; i >= 0; i--) {
+            int add = Math.min(5, missing);
+            res[i] += add;
+            missing -= add;
         }
-        if (count0 > count1) {
-            int res = 0;
-            for (int i = 0; i < n; i += 2) {
-                if (s.charAt(i) == '1') {
-                    res++;
-                }
-            }
-            return res;
-        } else if (count0 < count1) {
-            int res = 0;
-            for (int i = 0; i < n; i += 2) {
-                if (s.charAt(i) == '0') {
-                    res++;
-                }
-            }
-            return res;
-        } else {
-            int res1 = 0;
-            int res2 = 0;
-            for (int i = 0; i < n; i += 2) {
-                if (s.charAt(i) == '1') {
-                    res1++;
-                }
-            }
-            for (int i = 0; i < n; i += 2) {
-                if (s.charAt(i) == '0') {
-                    res2++;
-                }
-            }
-            return Math.min(res1, res2);
-        }
+        return res;
         
     }
 }
