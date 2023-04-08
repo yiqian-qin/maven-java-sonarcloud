@@ -2,22 +2,28 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
-        List<Interval> res = new ArrayList<>();
-        List<Interval> all = new ArrayList<>();
-        for (List<Interval> list : schedule) {
-            all.addAll(list);
-        }
-        Collections.sort(all, (a, b) -> a.start - b.start);
-        int end = all.get(0).end;
-        for (int i = 1; i < all.size(); i++) {
-            if (all.get(i).start > end) {
-                res.add(new Interval(end, all.get(i).start));
-                end = all.get(i).end;
-            } else {
-                end = Math.max(end, all.get(i).end);
+    public int minDeletionSize(String[] strs) {
+        int n = strs.length;
+        int m = strs[0].length();
+        int[] dp = new int[m];
+        Arrays.fill(dp, 1);
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < i; j++) {
+                boolean flag = true;
+                for (int k = 0; k < n; k++) {
+                    if (strs[k].charAt(j) > strs[k].charAt(i)) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
             }
+            res = Math.max(res, dp[i]);
         }
-        return res;
+        return m - res;
+        
     }
 }
