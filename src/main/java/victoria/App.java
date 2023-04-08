@@ -2,20 +2,17 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int countCornerRectangles(int[][] grid) {
-         int count = 0;
-         int m = grid.length, n = grid[0].length;
-         for (int i = 0; i < m - 1; i++) {
-             for (int j = i + 1; j < m; j++) {
-                 int currCount = 0;
-                 for (int k = 0; k < n; k++) {
-                     if (grid[i][k] == 1 && grid[j][k] == 1) {
-                         currCount++;
-                     }
-                 }
-                 count += currCount * (currCount - 1) / 2;
-             }
-         }
-         return count;
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) return false;
+        int[] count = new int[26];
+        for(int i = 0; i < s.length(); i++){
+            count[s.charAt(i) - 'a']++;
+            count[t.charAt(i) - 'a']--;
+        }
+        for(int i = 0; i < 26; i++){
+            if(count[i] != 0) return false;
+        }
+        return true;
+
     }
 }
