@@ -2,21 +2,24 @@ import java.util.*;
 import java.util.Arrays;
 
 class Solution {
-    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
-        List<Interval> merged = new ArrayList<>();
-        for (List<Interval> intervals : schedule) {
-            merged.addAll(intervals);
-        }
-        Collections.sort(merged, (a, b) -> a.start - b.start);
+    public int scheduleCourse(int[][] courses) {
+        Arrays.sort(courses, (a,b) -> a[1] - b[1]); // sort courses by last day
 
-        List<Interval> result = new ArrayList<>();
-        int end = merged.get(0).end;
-        for (Interval interval : merged) {
-            if (interval.start > end) {
-                result.add(new Interval(end, interval.start));
+        PriorityQueue<Integer> takenCourses = new PriorityQueue<>((a, b) -> b - a); // max heap to keep track of taken courses
+        int currentDay = 0; // current day we start a course
+
+        for (int[] course : courses) {
+            int duration = course[0], lastDay = course[1];
+            if (currentDay + duration <= lastDay) {
+                takenCourses.offer(duration);
+                currentDay += duration;
+            } else if (!takenCourses.isEmpty() && takenCourses.peek() > duration) {
+                // replace a longer course with this one to reduce total days taken
+                currentDay += duration - takenCourses.poll();
+                takenCourses.offer(duration);
             }
-            end = Math.max(end, interval.end);
         }
-        return result;
+
+        return takenCourses.size();
     }
 }
