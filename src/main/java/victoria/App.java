@@ -2,16 +2,14 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public List<String> readBinaryWatch(int turnedOn) {
-        List<String> times = new ArrayList<>();
-        for(int h = 0; h < 12; h++){
-            for(int m = 0; m < 60; m++){
-                if(Integer.bitCount(h) + Integer.bitCount(m) == turnedOn){
-                    times.add(String.format("%d:%02d", h, m));
-                }
+    public boolean validWordSquare(List<String> words) {
+        int n = words.size();
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < words.get(i).length(); j++){
+                if(j >= n || i >= words.get(j).length() || words.get(i).charAt(j) != words.get(j).charAt(i)) return false;
             }
         }
-        return times;
-
+        return true;
+        
     }
 }
