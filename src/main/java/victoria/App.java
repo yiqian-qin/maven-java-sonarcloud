@@ -2,27 +2,24 @@ import java.util.*;
 import java.util.Arrays;
  
 class Solution {
-    public int numSubmatrixSumTarget(int[][] matrix, int target) {
-        int m = matrix.length;
-        int n = matrix[0].length;
-        int[][] sum = new int[m + 1][n + 1];
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + matrix[i - 1][j - 1];
-            }
-        }
-        int ans = 0;
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                for (int k = i; k <= m; k++) {
-                    for (int l = j; l <= n; l++) {
-                        if (sum[k][l] - sum[i - 1][l] - sum[k][j - 1] + sum[i - 1][j - 1] == target) {
-                            ans++;
+    public double frogPosition(int n, int[][] edges, int t, int target) {
+        double[][] dp = new double[t+1][n+1];
+        dp[0][1] = 1.0; //initializing position of the frog at the beginning
+        
+        for(int i=1; i<=t; i++) {
+            for(int j=1; j<=n; j++) {
+                for(int[] edge: edges) {
+                    int u = edge[0], v = edge[1];
+                    if(u==j || v==j) { //checking if the current node is vertex of the current edge
+                        int neighbor = (u==j) ? v : u;
+                        if(dp[i-1][j] > 0) { //checking if there is already some probability of reaching the node
+                            dp[i][neighbor] += dp[i-1][j]/(edge.length-1); //adding probability to neighbor
                         }
                     }
                 }
+                if(i==t && j==target) return dp[t][target]; //returning the required probability for target node, if last second is reached and checking for target
             }
         }
-        return ans;
+        return 0.0; //if there is no probability of reaching the target node, then returning 0.0
     }
 }
